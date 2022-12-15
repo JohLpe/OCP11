@@ -30,4 +30,5 @@ urlpatterns = [
     path('', views.index, name='homepage'),
     path('mentions/', views.mentions, name='legalmentions'),
     path('admin/', admin.site.urls),
+    path('products/', include('products.urls')),
 ]
