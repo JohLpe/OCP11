@@ -1,5 +1,4 @@
 from django.test import TestCase, Client
-from django.contrib import auth
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -51,3 +50,21 @@ class TestsRegistrationViews(TestCase):
                                     {"username": "Testuser",
                                      "password": 'lfnedTTzpv244fjf'})
         self.assertRedirects(response, '/')
+        self.assertTrue(self.user.is_authenticated)
+
+    def test_view_account(self):
+        """Tests that user can view their account"""
+
+        self.user = User.objects.create_user('Testuser',
+                                             'myemail@test.com',
+                                             'lfnedTTzpv244fjf')
+        self.client.login(username='Testuser',
+                          password='lfnedTTzpv244fjf')
+        self.assertTrue(self.user.check_password('lfnedTTzpv244fjf'))
+        self.assertTrue(self.user.is_authenticated)
+        response = self.client.post(reverse('viewaccount'),{'old_password':'lfnedTTzpv244fjf',
+                                                            'new_password1': 'ohbzidbf67778',
+                                                            'new_password2': 'ohbzidbf67778'})
+        self.assertEqual(response.status_code, 200)
+        self.user = User.objects.get(username='Testuser')
+        self.assertTrue(self.user.check_password('ohbzidbf67778'))
