@@ -46,9 +46,7 @@ class RegistrationPage(StaticLiveServerTestCase):
                                  '//*[@id="id_password2"]'
                                  ).send_keys("deigibefopn465")
 
-        self.driver.find_element(By.XPATH,
-                                 '//*[@id="registration-form"]/input[2]'
-                                 ).click()
+        self.driver.find_element(By.ID, "register-btn").submit()
         self.wait.until(cond.url_changes)
 
         assert self.driver.current_url == self.live_server_url +\
