@@ -22,8 +22,8 @@ handler404 = 'purbeurre.views.error_404'
 handler500 = 'purbeurre.views.error_500'
 
 
-# def trigger_error(request):
-#     division_by_zero = 1 / 0
+def trigger_error(request):
+    division_by_zero = 1 / 0
 
 
 urlpatterns = [
@@ -32,4 +32,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('products/', include('products.urls')),
     path('registration/', include('registration.urls')),
+    path('sentry-debug/', trigger_error),
 ]
