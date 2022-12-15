@@ -31,4 +31,5 @@ urlpatterns = [
     path('mentions/', views.mentions, name='legalmentions'),
     path('admin/', admin.site.urls),
     path('products/', include('products.urls')),
+    path('registration/', include('registration.urls')),
 ]

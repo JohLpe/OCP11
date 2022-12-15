@@ -35,6 +35,7 @@ ALLOWED_HOSTS = [os.getenv("MY_HOST_LIST")]
 # Application definition
 
 INSTALLED_APPS = [
+    'registration.apps.RegistrationConfig',
     'products.apps.ProductsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
