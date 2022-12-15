@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block content %}
+      <!-- Header résultats-->
+      <section class="page-section bg-moules">
+      </section>
+      <!-- Informations compte-->
+      <section class="page-section">
+          <div class="container px-3 px-lg-4">
+                <h3 class="text-center mt-0">Mon compte</h3>
+                <hr class="divider" />
+                    <div class="text-center pt-5 pb-2">Nom d'utilisateur: {{user.username}}</div>
+                    <div class="text-center pb-2">Email: {{user.email}}</div>
+                    <div class="text-center pb-2">Prénom: {{user.first_name}}</div>
+                    <div class="text-center pb-2">Nom: {{user.last_name}}</div>
+                    <hr class="divider" />
+          </div>
+      </section>
+{% endblock %}
