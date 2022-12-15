@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from .utils import NewUserForm
 
 
@@ -49,4 +50,21 @@ def logout_user(request):
 def view_account(request):
     """Shows user account"""
 
-    return render(request, 'registration/account.html')
+    current_user = request.user
+    form = PasswordChangeForm(user=current_user, data=request.POST)
+
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+        if current_user.check_password(old_password):
+            if form.is_valid():
+                form.save()
+                update_session_auth_hash(request, form.user)
+                messages.success(request, "Mot de passe modifié!")
+            else:
+                messages.error(request,
+                               "Nouveaux mot de passe non identiques.")
+        else:
+            messages.error(request, "Mot de passe erroné.")
+    return render(request, 'registration/account.html', {
+        'form': form,
+    })

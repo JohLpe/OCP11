@@ -14,6 +14,36 @@
                     <div class="text-center pb-2">Prénom: {{user.first_name}}</div>
                     <div class="text-center pb-2">Nom: {{user.last_name}}</div>
                     <hr class="divider" />
+              <form name="changePassword" class="text-center" action="" method="POST" id="changepassword-form">
+                {% csrf_token %}
+                <div class="form-floating mb-3">
+                    <div style="padding-bottom:0%;">Mot de passe</div>
+                    {{form.old_password}}
+                </div>
+                <div class="form-floating mt-2 mb-3">
+                    <div style="padding-bottom:0%;">Nouveau mot de passe</div>
+                   {{form.new_password1}}
+                </div>
+                <div class="form-floating mt-2 mb-3">
+                    <div style="padding-bottom:0%;">Confirmation nouveau mot de passe</div>
+                    {{form.new_password2}}
+                </div>
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="alert-info text-center mb-3">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                <div class="alert-warning text-center mb-3">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                <input class="btn-primary" type="submit" value="Changer de mot de passe" name="change-password">
+                </form>
           </div>
       </section>
 {% endblock %}
