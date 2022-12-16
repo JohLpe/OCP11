@@ -52,8 +52,9 @@ class TestsRegistrationViews(TestCase):
         self.assertRedirects(response, '/')
         self.assertTrue(self.user.is_authenticated)
 
-    def test_view_account(self):
-        """Tests that user can view their account"""
+    def test_view_account_change_valid_password(self):
+        """Tests that user can view their account and"""
+        """change password works with a valid form"""
 
         self.user = User.objects.create_user('Testuser',
                                              'myemail@test.com',
@@ -68,3 +69,21 @@ class TestsRegistrationViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.user = User.objects.get(username='Testuser')
         self.assertTrue(self.user.check_password('ohbzidbf67778'))
+
+    def test_view_account_change_invalid_password(self):
+        """Tests that user can view their account and"""
+        """password is unchanged if invalid form"""
+
+        self.user = User.objects.create_user('Testuser',
+                                             'myemail@test.com',
+                                             'lfnedTTzpv244fjf')
+        self.client.login(username='Testuser',
+                          password='lfnedTTzpv244fjf')
+        self.assertTrue(self.user.check_password('lfnedTTzpv244fjf'))
+        self.assertTrue(self.user.is_authenticated)
+        response = self.client.post(reverse('viewaccount'),{'old_password':'lfnedTTzpv244fjf',
+                                                            'new_password1': 'ohbzidbf67778',
+                                                            'new_password2': 'fcqfgrrs'})
+        self.assertEqual(response.status_code, 200)
+        self.user = User.objects.get(username='Testuser')
+        self.assertTrue(self.user.check_password('lfnedTTzpv244fjf'))
